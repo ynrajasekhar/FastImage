@@ -20,7 +20,7 @@ namespace FastImage
             var imageInfo = new ImageInfo {ImageFormat = ImageFormat.NOTRECOGNISED};
             try
             {
-                var c = GetChars(2);
+                var c = GetBytes(2);
                 if (c[0] == 0xff && c[1] == 0xd8)
                 {
                     imageInfo.ImageFormat = ImageFormat.JPEG;
@@ -64,15 +64,15 @@ namespace FastImage
         private void ParseForTiff(ImageInfo imageInfo)
         {
             byte[] chars;
-            GetChars(2);
-            chars = GetChars(4);
+            GetBytes(2);
+            chars = GetBytes(4);
             uint offset = BitConverter.ToUInt32(chars, 0);
             if(_isBigEndian)
             {
                 offset = EndianConverter.SwapUInt32(offset);
             }
             Skip((int)offset-8);
-            chars = GetChars(2);
+            chars = GetBytes(2);
             ushort tagCount = BitConverter.ToUInt16(chars,0);
             if(_isBigEndian)
             {
@@ -82,14 +82,14 @@ namespace FastImage
             int height = -1;
             for (uint i = tagCount; i >= 1; i--)
             {
-                chars = GetChars(2);
+                chars = GetBytes(2);
                 ushort type = BitConverter.ToUInt16(chars, 0);
                 if(_isBigEndian)
                 {
                     type = EndianConverter.SwapUInt16(type);
                 }
-                chars =GetChars(6);
-                chars = GetChars(2);
+                chars =GetBytes(6);
+                chars = GetBytes(2);
                 ushort data = BitConverter.ToUInt16(chars, 0);
                 if(_isBigEndian)
                 {
@@ -109,27 +109,27 @@ namespace FastImage
                     imageInfo.Height = height;
                     return;
                 }
-                GetChars(2);
+                GetBytes(2);
             }
         }
         
         private void ParseForPng(ImageInfo imageInfo)
         {
-            var c = GetChars(25);
+            var c = GetBytes(25);
             imageInfo.Width = c[17];
             imageInfo.Height = c[21];
         }
 
         private void ParseForGif(ImageInfo imageInfo)
         {
-            var c = GetChars(11);
+            var c = GetBytes(11);
             imageInfo.Width = c[4];
             imageInfo.Height = c[6];
         }
 
         private void ParseForBmp(ImageInfo imageInfo)
         {
-            var c = GetChars(29);
+            var c = GetBytes(29);
             imageInfo.Width = c[16];
             imageInfo.Height = c[20];
         }
@@ -142,12 +142,12 @@ namespace FastImage
                 byte[] c;
                 if (state == "started")
                 {
-                    c = GetChars(1);
+                    c = GetBytes(1);
                     state = (c[0] == 0xFF) ? "sof" : "started";
                 }
                 else if(state == "sof")
                 {
-                    c = GetChars(1);
+                    c = GetBytes(1);
                     if(c[0] >= 0xe0 && c[0] <= 0xef)
                     {
                         state = "skipframe";
@@ -167,14 +167,14 @@ namespace FastImage
                 }
                 else if(state == "skipframe")
                 {
-                    c = GetChars(2);
+                    c = GetBytes(2);
                     int skip = ReadInt(c)-2;
-                    GetChars(skip);
+                    GetBytes(skip);
                     state = "started";
                 }
                 else if(state == "readsize")
                 {
-                    c = GetChars(7);
+                    c = GetBytes(7);
                     imageInfo.Width = ReadInt(new[] { c[5], c[6] });
                     imageInfo.Height = ReadInt(new[] { c[3], c[4] });
                     return;
@@ -182,7 +182,7 @@ namespace FastImage
             }
         }
 
-        private byte[] GetChars(int length)
+        private byte[] GetBytes(int length)
         {
             var c = new byte[length];
             _stream.Read(c, 0, c.Length);

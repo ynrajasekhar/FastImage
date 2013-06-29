@@ -76,9 +76,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/fastimage_csharp.gif";
             var expected = new ImageInfo { ImageFormat = ImageFormat.GIF, Width = 200, Height = 150 };
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Png()
@@ -87,9 +85,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/fastimage_csharp.png";
             var expected = new ImageInfo { ImageFormat = ImageFormat.PNG, Width = 200, Height = 150 };
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Bmp()
@@ -98,9 +94,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/fastimage_csharp.bmp";
             var expected = new ImageInfo {ImageFormat = ImageFormat.BMP, Width = 200, Height = 150};
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Jpg()
@@ -109,9 +103,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/fastimage_csharp.jpg";
             var expected = new ImageInfo {ImageFormat = ImageFormat.JPEG, Width = 200, Height = 150};
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Tiff()
@@ -120,9 +112,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/fastimage_csharp.tif";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 200, Height = 150 };
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Tiff1()
@@ -133,9 +123,7 @@ namespace FastImage.Tests
                 string url = "http://localhost/FastImage/tif/CCITT_" + i.ToString() + ".TIF";
                 var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1728, Height = 2376 };
                 ImageInfo actual = target.GetImageDetail(url);
-                Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-                Assert.AreEqual(expected.Width, actual.Width);
-                Assert.AreEqual(expected.Height, actual.Height);
+                AssertEqualImageInfo(actual, expected);
             }
         }
         [TestMethod()]
@@ -145,9 +133,7 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/tif/GMARBLES.TIF";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1419, Height = 1001 };
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
         public void GetImageDetailTest_Tiff_MM2()
@@ -156,30 +142,34 @@ namespace FastImage.Tests
             const string url = "http://localhost/FastImage/tif/MARBLES.TIF";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1419, Height = 1001 };
             ImageInfo actual = target.GetImageDetail(url);
-            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
-            Assert.AreEqual(expected.Width, actual.Width);
-            Assert.AreEqual(expected.Height, actual.Height);
+            AssertEqualImageInfo(actual, expected);
         }
-        [TestMethod()]
-        public void GetImageDetailTest_BenchMark()
+
+        private static void AssertEqualImageInfo(ImageInfo actual, ImageInfo expected)
         {
-            string url = "http://upload.wikimedia.org/wikipedia/commons/b/b4/Mardin_1350660_1350692_33_images.jpg";
-            var sw = new StreamWriter(@"d:\benchmark.txt");
-            WebClient webClient = new WebClient();
-            sw.WriteLine("DownloadStart:" + DateTime.Now.ToString());
-            webClient.DownloadData(url);
-            sw.WriteLine("DownloadEnd:" + DateTime.Now.ToString());
-            sw.Flush();
-            var target = new FastImage();
-            var expected = new ImageInfo { ImageFormat = ImageFormat.JPEG, Width = 9545, Height = 6623 };
-            sw.WriteLine("GetImageDetailStart:" + DateTime.Now.ToString());
-            ImageInfo actual = target.GetImageDetail(url);
-            sw.WriteLine("GetImageDetailEnd:" + DateTime.Now.ToString());
             Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
             Assert.AreEqual(expected.Width, actual.Width);
             Assert.AreEqual(expected.Height, actual.Height);
-            sw.Flush();
-            sw.Close();
         }
+
+        //[TestMethod()]
+        //public void GetImageDetailTest_BenchMark()
+        //{
+        //    string url = "http://upload.wikimedia.org/wikipedia/commons/b/b4/Mardin_1350660_1350692_33_images.jpg";
+        //    var sw = new StreamWriter(@"d:\benchmark.txt");
+        //    WebClient webClient = new WebClient();
+        //    sw.WriteLine("DownloadStart:" + DateTime.Now.ToString());
+        //    webClient.DownloadData(url);
+        //    sw.WriteLine("DownloadEnd:" + DateTime.Now.ToString());
+        //    sw.Flush();
+        //    var target = new FastImage();
+        //    var expected = new ImageInfo { ImageFormat = ImageFormat.JPEG, Width = 9545, Height = 6623 };
+        //    sw.WriteLine("GetImageDetailStart:" + DateTime.Now.ToString());
+        //    ImageInfo actual = target.GetImageDetail(url);
+        //    sw.WriteLine("GetImageDetailEnd:" + DateTime.Now.ToString());
+        //    AssertEqualImageInfo(actual, expected);
+        //    sw.Flush();
+        //    sw.Close();
+        //}
     }
 }
