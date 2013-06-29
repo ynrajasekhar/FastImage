@@ -185,27 +185,10 @@ namespace FastImage
         private byte[] GetChars(int length)
         {
             var c = new byte[length];
-            if (length <= 1024)
-            {
-                _stream.Read(c, 0, c.Length);
-            }
-            else
-            {
-                int temp = 0;
-                int size = 1024;
-                while (temp < length)
-                {
-                    if (temp + size > length)
-                    {
-                        size = temp + size - length;
-                    }
-                    _stream.Read(c, temp, size);
-                    temp += 1024;   
-                }
-                
-            }
+            _stream.Read(c, 0, c.Length);
             return c;
         }
+
         private void Skip(int length)
         {
             int i = 0;

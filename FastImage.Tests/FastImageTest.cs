@@ -1,4 +1,6 @@
-﻿using FastImage;
+﻿using System.IO;
+using System.Net;
+using FastImage;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -157,6 +159,27 @@ namespace FastImage.Tests
             Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
             Assert.AreEqual(expected.Width, actual.Width);
             Assert.AreEqual(expected.Height, actual.Height);
+        }
+        [TestMethod()]
+        public void GetImageDetailTest_BenchMark()
+        {
+            string url = "http://upload.wikimedia.org/wikipedia/commons/b/b4/Mardin_1350660_1350692_33_images.jpg";
+            var sw = new StreamWriter(@"d:\benchmark.txt");
+            WebClient webClient = new WebClient();
+            sw.WriteLine("DownloadStart:" + DateTime.Now.ToString());
+            webClient.DownloadData(url);
+            sw.WriteLine("DownloadEnd:" + DateTime.Now.ToString());
+            sw.Flush();
+            var target = new FastImage();
+            var expected = new ImageInfo { ImageFormat = ImageFormat.JPEG, Width = 9545, Height = 6623 };
+            sw.WriteLine("GetImageDetailStart:" + DateTime.Now.ToString());
+            ImageInfo actual = target.GetImageDetail(url);
+            sw.WriteLine("GetImageDetailEnd:" + DateTime.Now.ToString());
+            Assert.AreEqual(expected.ImageFormat, actual.ImageFormat);
+            Assert.AreEqual(expected.Width, actual.Width);
+            Assert.AreEqual(expected.Height, actual.Height);
+            sw.Flush();
+            sw.Close();
         }
     }
 }
