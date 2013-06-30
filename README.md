@@ -1,5 +1,5 @@
-h1. FastImage
+# FastImage
 
-h4. FastImage finds the size or type of an image given its uri by fetching as little as needed
-h4. Written in C#
-h4. Inspired by https://github.com/sdsykes/fastimage
+* FastImage finds the size or type of an image given its uri by fetching as little as needed
+* Written in C#
+* Inspired by https://github.com/sdsykes/fastimage
