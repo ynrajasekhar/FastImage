@@ -6,13 +6,19 @@
 
 ### Installation
 
-PM> Install-Package FastImage
+* Download source code and build or
+* Download dll from lib [FastImage.dll](lib/FastImage.dll) or
+* Install using NuGet
+
+### Installation NuGet
+
+    PM> Install-Package FastImage
 
 ### Example
 
-FastImage fastImage = new FastImage(); 
-const string url = "http://localhost/FastImage/fastimage_csharp.png";
-ImageInfo result = fastImage.GetImageInfo(url);
+    FastImage fastImage = new FastImage(); 
+    const string url = "http://localhost/FastImage/fastimage_csharp.png";
+    ImageInfo result = fastImage.GetImageInfo(url);
 
 ## References
 
@@ -20,4 +26,4 @@ ImageInfo result = fastImage.GetImageInfo(url);
 
 ## Licence
 
-MIT, see file "MIT-LICENSE":MIT-LICENSE
+MIT, see file ["MIT-LICENSE"](MIT-LICENSE)
