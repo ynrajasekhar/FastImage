@@ -7,7 +7,7 @@
 ### Installation
 
 * Download source code and build or
-* Download dll from lib [FastImage.dll](lib/FastImage.dll) or
+* Download FastImage.dll from [lib](lib) or
 * Install using NuGet
 
 ### Installation NuGet
