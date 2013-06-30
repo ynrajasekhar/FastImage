@@ -67,7 +67,7 @@ namespace FastImage.Tests
 
 
         /// <summary>
-        ///A test for GetImageDetail
+        ///A test for GetImageInfo
         ///</summary>
         [TestMethod()]
         public void GetImageDetailTest_Gif()
@@ -75,7 +75,7 @@ namespace FastImage.Tests
             FastImage target = new FastImage(); 
             const string url = "http://localhost/FastImage/fastimage_csharp.gif";
             var expected = new ImageInfo { ImageFormat = ImageFormat.GIF, Width = 200, Height = 150 };
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -84,7 +84,7 @@ namespace FastImage.Tests
             FastImage target = new FastImage(); 
             const string url = "http://localhost/FastImage/fastimage_csharp.png";
             var expected = new ImageInfo { ImageFormat = ImageFormat.PNG, Width = 200, Height = 150 };
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -93,7 +93,7 @@ namespace FastImage.Tests
             FastImage target = new FastImage(); 
             const string url = "http://localhost/FastImage/fastimage_csharp.bmp";
             var expected = new ImageInfo {ImageFormat = ImageFormat.BMP, Width = 200, Height = 150};
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -102,7 +102,7 @@ namespace FastImage.Tests
             FastImage target = new FastImage();
             const string url = "http://localhost/FastImage/fastimage_csharp.jpg";
             var expected = new ImageInfo {ImageFormat = ImageFormat.JPEG, Width = 200, Height = 150};
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -111,7 +111,7 @@ namespace FastImage.Tests
             var target = new FastImage(); 
             const string url = "http://localhost/FastImage/fastimage_csharp.tif";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 200, Height = 150 };
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -122,7 +122,7 @@ namespace FastImage.Tests
             {
                 string url = "http://localhost/FastImage/tif/CCITT_" + i.ToString() + ".TIF";
                 var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1728, Height = 2376 };
-                ImageInfo actual = target.GetImageDetail(url);
+                ImageInfo actual = target.GetImageInfo(url);
                 AssertEqualImageInfo(actual, expected);
             }
         }
@@ -132,7 +132,7 @@ namespace FastImage.Tests
             var target = new FastImage();
             const string url = "http://localhost/FastImage/tif/GMARBLES.TIF";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1419, Height = 1001 };
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
         [TestMethod()]
@@ -141,7 +141,7 @@ namespace FastImage.Tests
             var target = new FastImage();
             const string url = "http://localhost/FastImage/tif/MARBLES.TIF";
             var expected = new ImageInfo { ImageFormat = ImageFormat.TIFF, Width = 1419, Height = 1001 };
-            ImageInfo actual = target.GetImageDetail(url);
+            ImageInfo actual = target.GetImageInfo(url);
             AssertEqualImageInfo(actual, expected);
         }
 
@@ -165,7 +165,7 @@ namespace FastImage.Tests
         //    var target = new FastImage();
         //    var expected = new ImageInfo { ImageFormat = ImageFormat.JPEG, Width = 9545, Height = 6623 };
         //    sw.WriteLine("GetImageDetailStart:" + DateTime.Now.ToString());
-        //    ImageInfo actual = target.GetImageDetail(url);
+        //    ImageInfo actual = target.GetImageInfo(url);
         //    sw.WriteLine("GetImageDetailEnd:" + DateTime.Now.ToString());
         //    AssertEqualImageInfo(actual, expected);
         //    sw.Flush();

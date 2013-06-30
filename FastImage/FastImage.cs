@@ -10,8 +10,7 @@ namespace FastImage
     public class FastImage
     {
         private Stream _stream;
-        private bool _isBigEndian = false;
-        public ImageInfo GetImageDetail(string url)
+        public ImageInfo GetImageInfo(string url)
         {
 
             WebRequest request = WebRequest.Create(url);
@@ -29,29 +28,27 @@ namespace FastImage
                 else if (c[0] == 'B' && c[1] == 'M')
                 {
                     imageInfo.ImageFormat = ImageFormat.BMP;
-                    ParseForBmp(imageInfo);
+                    ParseSizeForBmp(imageInfo);
                 }
                 else if (c[0] == 'G' && c[1] == 'I')
                 {
                     imageInfo.ImageFormat = ImageFormat.GIF;
-                    ParseForGif(imageInfo);
+                    ParseSizeForGif(imageInfo);
                 }
                 else if (c[0] == 0x89 && c[1] == 'P')
                 {
                     imageInfo.ImageFormat = ImageFormat.PNG;
-                    ParseForPng(imageInfo);
+                    ParseSizeForPng(imageInfo);
                 }
                 else if (c[0] == 'I' && c[1] == 'I')
                 {
-                    _isBigEndian = false;
                     imageInfo.ImageFormat = ImageFormat.TIFF;
-                    ParseForTiff(imageInfo);
+                    ParseSizeForTiff(imageInfo,false);
                 }
                 else if (c[0] == 'M' && c[1] == 'M')
                 {
-                    _isBigEndian = true;
                     imageInfo.ImageFormat = ImageFormat.TIFF;
-                    ParseForTiff(imageInfo);
+                    ParseSizeForTiff(imageInfo, true);
                 }
             }
             finally
@@ -61,20 +58,20 @@ namespace FastImage
             return imageInfo;
         }
 
-        private void ParseForTiff(ImageInfo imageInfo)
+        private void ParseSizeForTiff(ImageInfo imageInfo, bool isBigEndian)
         {
             byte[] chars;
             GetBytes(2);
             chars = GetBytes(4);
             uint offset = BitConverter.ToUInt32(chars, 0);
-            if(_isBigEndian)
+            if(isBigEndian)
             {
                 offset = EndianConverter.SwapUInt32(offset);
             }
             Skip((int)offset-8);
             chars = GetBytes(2);
             ushort tagCount = BitConverter.ToUInt16(chars,0);
-            if(_isBigEndian)
+            if(isBigEndian)
             {
                 tagCount = EndianConverter.SwapUInt16(tagCount);
             }
@@ -84,14 +81,14 @@ namespace FastImage
             {
                 chars = GetBytes(2);
                 ushort type = BitConverter.ToUInt16(chars, 0);
-                if(_isBigEndian)
+                if(isBigEndian)
                 {
                     type = EndianConverter.SwapUInt16(type);
                 }
                 chars =GetBytes(6);
                 chars = GetBytes(2);
                 ushort data = BitConverter.ToUInt16(chars, 0);
-                if(_isBigEndian)
+                if(isBigEndian)
                 {
                     data = EndianConverter.SwapUInt16(data);
                 }
@@ -113,21 +110,21 @@ namespace FastImage
             }
         }
         
-        private void ParseForPng(ImageInfo imageInfo)
+        private void ParseSizeForPng(ImageInfo imageInfo)
         {
             var c = GetBytes(25);
             imageInfo.Width = c[17];
             imageInfo.Height = c[21];
         }
 
-        private void ParseForGif(ImageInfo imageInfo)
+        private void ParseSizeForGif(ImageInfo imageInfo)
         {
             var c = GetBytes(11);
             imageInfo.Width = c[4];
             imageInfo.Height = c[6];
         }
 
-        private void ParseForBmp(ImageInfo imageInfo)
+        private void ParseSizeForBmp(ImageInfo imageInfo)
         {
             var c = GetBytes(29);
             imageInfo.Width = c[16];
