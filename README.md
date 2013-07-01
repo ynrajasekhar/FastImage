@@ -29,3 +29,4 @@
 MIT, see file ["MIT-LICENSE"](MIT-LICENSE)
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c975b8428b97cd060336e6306124d910 "githalytics.com")](http://githalytics.com/ynrajasekhar/FastImage)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ynrajasekhar/FastImage/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
