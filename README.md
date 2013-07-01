@@ -28,4 +28,4 @@
 
 MIT, see file ["MIT-LICENSE"](MIT-LICENSE)
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/f937e62a287075344bd41887f68aebda "githalytics.com")](http://githalytics.com/ynrajasekhar/FastImage)
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/c975b8428b97cd060336e6306124d910 "githalytics.com")](http://githalytics.com/ynrajasekhar/FastImage)
