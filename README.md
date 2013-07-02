@@ -4,12 +4,6 @@
 * Written in C#
 * Inspired by https://github.com/sdsykes/fastimage
 
-### Installation
-
-* Download source code and build or
-* Download FastImage.dll from [lib](lib) or
-* Install using NuGet
-
 ### Installation NuGet
 
     PM> Install-Package FastImage
