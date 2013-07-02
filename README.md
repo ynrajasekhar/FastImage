@@ -4,7 +4,7 @@
 * Written in C#
 * Inspired by https://github.com/sdsykes/fastimage
 
-### Installation NuGet
+### Installation
 
     PM> Install-Package FastImage
 
