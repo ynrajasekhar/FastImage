@@ -12,48 +12,46 @@ namespace FastImage
         private Stream _stream;
         public ImageInfo GetImageInfo(string url)
         {
-
-            WebRequest request = WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            _stream = response.GetResponseStream();
-            var imageInfo = new ImageInfo {ImageFormat = ImageFormat.NOTRECOGNISED};
-            try
+            var request = WebRequest.Create(url);
+            request.Proxy = WebRequest.DefaultWebProxy;
+            using (var response = request.GetResponse())
+            using (var stream = response.GetResponseStream())
+                return GetImageInfo(stream);
+        }
+        public ImageInfo GetImageInfo(Stream stream)
+        {
+            _stream = stream;
+            var imageInfo = new ImageInfo { ImageFormat = ImageFormat.NOTRECOGNISED };
+            var c = GetBytes(2);
+            if (c[0] == 0xff && c[1] == 0xd8)
             {
-                var c = GetBytes(2);
-                if (c[0] == 0xff && c[1] == 0xd8)
-                {
-                    imageInfo.ImageFormat = ImageFormat.JPEG;
-                    ParseSizeForJpeg(imageInfo);
-                }
-                else if (c[0] == 'B' && c[1] == 'M')
-                {
-                    imageInfo.ImageFormat = ImageFormat.BMP;
-                    ParseSizeForBmp(imageInfo);
-                }
-                else if (c[0] == 'G' && c[1] == 'I')
-                {
-                    imageInfo.ImageFormat = ImageFormat.GIF;
-                    ParseSizeForGif(imageInfo);
-                }
-                else if (c[0] == 0x89 && c[1] == 'P')
-                {
-                    imageInfo.ImageFormat = ImageFormat.PNG;
-                    ParseSizeForPng(imageInfo);
-                }
-                else if (c[0] == 'I' && c[1] == 'I')
-                {
-                    imageInfo.ImageFormat = ImageFormat.TIFF;
-                    ParseSizeForTiff(imageInfo,false);
-                }
-                else if (c[0] == 'M' && c[1] == 'M')
-                {
-                    imageInfo.ImageFormat = ImageFormat.TIFF;
-                    ParseSizeForTiff(imageInfo, true);
-                }
+                imageInfo.ImageFormat = ImageFormat.JPEG;
+                ParseSizeForJpeg(imageInfo);
             }
-            finally
+            else if (c[0] == 'B' && c[1] == 'M')
             {
-                if (_stream != null) _stream.Dispose();
+                imageInfo.ImageFormat = ImageFormat.BMP;
+                ParseSizeForBmp(imageInfo);
+            }
+            else if (c[0] == 'G' && c[1] == 'I')
+            {
+                imageInfo.ImageFormat = ImageFormat.GIF;
+                ParseSizeForGif(imageInfo);
+            }
+            else if (c[0] == 0x89 && c[1] == 'P')
+            {
+                imageInfo.ImageFormat = ImageFormat.PNG;
+                ParseSizeForPng(imageInfo);
+            }
+            else if (c[0] == 'I' && c[1] == 'I')
+            {
+                imageInfo.ImageFormat = ImageFormat.TIFF;
+                ParseSizeForTiff(imageInfo, false);
+            }
+            else if (c[0] == 'M' && c[1] == 'M')
+            {
+                imageInfo.ImageFormat = ImageFormat.TIFF;
+                ParseSizeForTiff(imageInfo, true);
             }
             return imageInfo;
         }
